@@ -72,8 +72,8 @@ namespace Quixel
         /// <summary>
         /// A pool of reusable density arrays.
         /// </summary>
-        private static Queue<DensityData> densityPool = new Queue<DensityData>();
-        private static Queue<DensityData> densityRecycleList = new Queue<DensityData>();
+        //private static Queue<DensityData> densityPool = new Queue<DensityData>();
+        //private static Queue<DensityData> densityRecycleList = new Queue<DensityData>();
         private static DensityThread densityThread;
 
         /// <summary>

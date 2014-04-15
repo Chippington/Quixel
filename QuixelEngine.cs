@@ -38,8 +38,9 @@ namespace Quixel
         /// Initializes the Quixel Engine
         /// </summary>
         /// <param name="mats">Array of materials.</param>
-        /// <param name="terrainObj">Parent terrain object (empty)</param>
-        public static void init(Material[] mats, GameObject terrainObj)
+        /// <param name="terrainObj">Parent terrain object. (empty)</param>
+        /// <param name="worldName">Name of the world. Used for paging. (empty)</param>
+        public static void init(Material[] mats, GameObject terrainObj, string worldName)
         {
             MeshFactory.terrainObj = terrainObj;
 
@@ -47,7 +48,7 @@ namespace Quixel
             Debug.Log("Materials: " + mats.Length);
             DensityPool.init();
             MeshFactory.start();
-            NodeManager.init("test world");
+            NodeManager.init(worldName);
         }
 
         /// <summary>
@@ -65,7 +66,15 @@ namespace Quixel
                 NodeManager.LODSize[i] = (int)Mathf.Pow(2, i + size);
             }
         }
-
+		
+		/// <summary>
+        /// Sets the terrain generator to use when generating terrain.
+        /// </summary>
+		public static void setTerrainGenerator(IGenerator gen)
+		{
+			MeshFactory.terrainGenerator = gen;
+		}
+		
         /// <summary>
         /// Updates the Quixel system. Should be called every step.
         /// </summary>

@@ -29,7 +29,7 @@ using System.IO;
 namespace Quixel
 {
     /// <summary>
-    /// Controls the 9 top-level nodes. Handles node searching.
+    /// Controls the 27 top-level nodes. Handles node searching.
     /// </summary>
     internal static class NodeManager
     {
@@ -1142,6 +1142,8 @@ namespace Quixel
         public int debugDraw()
         {
             return 0;
+			//Debug drawing, draws the outlines of chunks, very laggy use at own risk.
+			/*
             if (true)
             {
                 int nodeWidth = NodeManager.nodeSize * NodeManager.LODSize[LOD];
@@ -1176,6 +1178,7 @@ namespace Quixel
                 if (subNodes[i] != null)
                     ct += subNodes[i].debugDraw();
             return ct;
+			*/
         }
     }
 }

@@ -39,7 +39,6 @@ namespace Quixel
 
         /// <summary> Array of bytes that dictates which material to render </summary>
         public byte[, ,] Materials;
-        public int LOD;
         #endregion
 
         public DensityData()
