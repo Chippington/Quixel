@@ -7,7 +7,7 @@ This is a project that initially started as a hobby project, to see if
 I could create an efficient voxel engine for Unity. Initially, I planned
 on selling this on the Unity asset store, however life happened suddenly
 and I'm unable to work on this as much as before, if at all. So here it
-is, open sourced under the GPLv2 license. You're free to use it for
+is, open sourced under the MIT license. You're free to use it for
 commercial use, however I'd really love to hear about any project using
 this. Thanks!
 
