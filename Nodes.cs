@@ -621,14 +621,19 @@ namespace Quixel
         public bool containsDensityPoint(Vector3 pos)
         {
             float chunkWidth = NodeManager.LODSize[LOD] * NodeManager.nodeSize;
-            if ((pos.x >= position.x - NodeManager.LODSize[LOD] && pos.y >= position.y - NodeManager.LODSize[LOD] && pos.z >= position.z - NodeManager.LODSize[LOD])
-                && (pos.x <= position.x + chunkWidth + NodeManager.LODSize[LOD]
-                && pos.y <= position.y + chunkWidth + NodeManager.LODSize[LOD]
-                && pos.z <= position.z + chunkWidth + NodeManager.LODSize[LOD]))
-            {
-                return true;
-            }
-
+			Vector3 corner1 = new Vector3(position.x - NodeManager.LODSize[LOD],
+										position.y - NodeManager.LODSize[LOD],
+										position.z - NodeManager.LODSize[LOD]);
+										
+			Vector3 corner2 = new Vector3(position.x + chunkWidth + NodeManager.LODSize[LOD],
+										position.y + chunkWidth + NodeManager.LODSize[LOD],
+										position.z + chunkWidth + NodeManager.LODSize[LOD]);
+										
+			if((pos.x >= corner1.x && pos.y >= corner1.y && pos.z >= corner1.z) &&
+				(pos.x <= corner2.x && pos.y <= corner2.y && pos.z <= corner2.z)) {
+				return true;
+			}
+			
             return false;
         }
 
@@ -821,7 +826,6 @@ namespace Quixel
                     subNodes[i] = new Node(this, NodeManager.getOffsetPosition(this, i), i, LOD - 1, type);
             }
         }
-
         /// <summary>
         /// Sets the density of a point, given a world pos.
         /// </summary>
@@ -829,13 +833,15 @@ namespace Quixel
         public void setDensityFromWorldPos(Vector3 worldPos, float val)
         {
             worldPos = worldPos - position;
-            Vector3I arrayPos = new Vector3I((int)(worldPos.x), (int)(worldPos.y), (int)(worldPos.z));
+            Vector3I arrayPos = new Vector3I((int)Math.Round(worldPos.x) / NodeManager.LODSize[LOD],
+                                            (int)Math.Round(worldPos.y) / NodeManager.LODSize[LOD],
+                                            (int)Math.Round(worldPos.z) / NodeManager.LODSize[LOD]);
 
             if (arrayPos.x < -1 || arrayPos.x > 17 ||
                 arrayPos.y < -1 || arrayPos.y > 17 ||
                 arrayPos.z < -1 || arrayPos.z > 17)
             {
-                Debug.Log("Wrong node. " + arrayPos);
+                Debug.Log("Wrong node. " + arrayPos + ":" + worldPos + ":" + containsDensityPoint(worldPos).ToString());
                 return;
             }
 
@@ -854,7 +860,9 @@ namespace Quixel
         public void setMaterialFromWorldPos(Vector3 worldPos, byte val)
         {
             worldPos = worldPos - position;
-            Vector3I arrayPos = new Vector3I((int)(worldPos.x), (int)(worldPos.y), (int)(worldPos.z));
+            Vector3I arrayPos = new Vector3I((int)Math.Round(worldPos.x) / NodeManager.LODSize[LOD],
+                                            (int)Math.Round(worldPos.y) / NodeManager.LODSize[LOD],
+                                            (int)Math.Round(worldPos.z) / NodeManager.LODSize[LOD]);
 
             if (arrayPos.x < -1 || arrayPos.x > 17 ||
                 arrayPos.y < -1 || arrayPos.y > 17 ||
