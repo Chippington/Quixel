@@ -7,6 +7,17 @@ using System.IO;
 
 namespace Quixel
 {
+	public enum VoxelType{
+		Dirt = 0,
+		SandStone = 1,
+		Stone = 2,
+		Grass = 3,
+		Iron = 4,
+		Gold = 5,
+		GunPowder = 6,
+		Tungsten = 7,
+		
+	}
 	/// <summary>
     /// Controls mesh generation (threaded)
     /// </summary>
@@ -14,7 +25,7 @@ namespace Quixel
     {
         #region Fields
         public static IGenerator terrainGenerator = new BasicTerrain();
-        public static float isolevel = 5f;
+        public static float isolevel = 64f;
 
         public static Queue<MeshRequest> setMeshQueue = new Queue<MeshRequest>();
         public static GeneratorThread[] generatorThreads = new GeneratorThread[4];
@@ -202,6 +213,7 @@ namespace Quixel
                 meshData.indexArray = new int[0][];
                 meshData.uvArray = new Vector2[0];
                 meshData.normalArray = new Vector3[0];
+				meshData.colorArray = new Color[0];
                 request.isDone = true;
                 return;
             }
@@ -290,7 +302,44 @@ namespace Quixel
                     count += 3;
                     indCount[subMeshIDList[i]] += 3;
                 }
+				int V = meshData.triangleArray.Length;
+				meshData.colorArray = new Color[V];
+
+				for(int v = 0;v < V;v++){
+
+					Vector3 vertice = meshData.triangleArray[v];
+
+					Vector3 normal = meshData.normalArray[v];
+
+					int Density = Mathf.RoundToInt(densityArray.getMaterial(Mathf.RoundToInt(vertice.x-normal.x),Mathf.RoundToInt(vertice.y-normal.y),Mathf.RoundToInt(vertice.z-normal.z)));
+					
+					
+					float R = 0;
+					float G =0;
+					float B =0;
+					float A =0;
+					if(Density== (int)VoxelType.Dirt)
+						R = 0.5f;
+					else if(Density== (int)VoxelType.Stone)
+						G = 0.5f;
+					else if(Density== (int)VoxelType.SandStone)
+						B = 0.5f;
+					else if(Density== (int)VoxelType.Grass)
+						A = 0.5f;
+					
+					else if(Density== 4)
+						R = 1;
+					else if(Density== 5)
+						G = 1;
+					else if(Density== 6)
+						B = 1;
+					else if(Density== 7)
+						A =1;
+					meshData.colorArray[v]= new Color(R ,G ,B ,A );
+				}
+
             }
+
             catch (Exception e)
             {
                 StreamWriter sw = new StreamWriter("Error Log.txt");
@@ -405,11 +454,10 @@ namespace Quixel
             if (IsBitSet(edgeTable[cubeIndex], 2048))
                 vertlist[11] = VertexInterp(isolevel, positions[3], positions[7], denses[3], denses[7], densityNormals[pos.x, pos.y, pos.z], densityNormals[pos.x, pos.y + 1, pos.z]);
 
-            int submesh = densities.getMaterial(pos.x, pos.y, pos.z);
             for (int i = 0; triTable[cubeIndex][i] != -1; i += 3)
             {
-                submeshIDList.Add(submesh);
-                subMeshTriCount[submesh] = subMeshTriCount[submesh] + 1;
+                submeshIDList.Add(0);
+                subMeshTriCount[0] = subMeshTriCount[0] + 1;
                 triangleList.Add(new Triangle(vertlist[triTable[cubeIndex][i]][0], vertlist[triTable[cubeIndex][i + 1]][0], vertlist[triTable[cubeIndex][i + 2]][0],
                     vertlist[triTable[cubeIndex][i]][1], vertlist[triTable[cubeIndex][i + 1]][1], vertlist[triTable[cubeIndex][i + 2]][1]));
             }

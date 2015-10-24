@@ -30,7 +30,7 @@ namespace Quixel
                 });
 
                 //new ThreadStart(generateLoop));
-                thread.Priority = System.Threading.ThreadPriority.BelowNormal;
+				thread.Priority = System.Threading.ThreadPriority.BelowNormal;
                 thread.IsBackground = true;
                 thread.Start();
             }
@@ -100,9 +100,9 @@ namespace Quixel
                 }
 
                 if (sleep)
-                    Thread.Sleep(30);
+                    Thread.Sleep(15);
                 else
-                    Thread.Sleep(4);
+                    Thread.Sleep(2);
             }
         }
     }
@@ -123,7 +123,7 @@ namespace Quixel
             finishedQueue = new Queue<DensityData>();
 
             thread = new Thread(new ThreadStart(recycleLoop));
-            thread.Priority = System.Threading.ThreadPriority.BelowNormal;
+			thread.Priority = System.Threading.ThreadPriority.BelowNormal;
             thread.IsBackground = true;
             thread.Start();
         }
@@ -197,7 +197,7 @@ namespace Quixel
             try
             {
                 thread = new Thread(new ThreadStart(commitLoop));
-                thread.Priority = System.Threading.ThreadPriority.BelowNormal;
+				thread.Priority = System.Threading.ThreadPriority.BelowNormal;
                 thread.IsBackground = true;
                 thread.Start();
             }

@@ -380,7 +380,7 @@ namespace Quixel
         public Vector2[] uvArray;
         public int[][] indexArray;
         public Vector3[] normalArray;
-
+		public Color[] colorArray;
         /// <summary>
         /// Disposes the meshdata.
         /// </summary>

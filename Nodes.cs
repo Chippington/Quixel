@@ -645,14 +645,14 @@ namespace Quixel
             if (disposed)
             {
                 if (chunk != null)
-                    chunk.GetComponent<MeshFilter>().renderer.enabled = false;
+                    chunk.GetComponent<MeshFilter>().GetComponent<Renderer>().enabled = false;
                 return;
             }
 
             if (chunk != null)
                 if (isBottomLevel())
                 {
-                    chunk.GetComponent<MeshFilter>().renderer.enabled = true;
+                    chunk.GetComponent<MeshFilter>().GetComponent<Renderer>().enabled = true;
                     setRenderType(RenderType.FRONT);
                 }
                 else
@@ -664,7 +664,7 @@ namespace Quixel
                             render = true;
                             setRenderType(RenderType.FRONT);
                         }
-                    chunk.GetComponent<MeshFilter>().renderer.enabled = render;
+                    chunk.GetComponent<MeshFilter>().GetComponent<Renderer>().enabled = render;
                 }
         }
 
@@ -691,9 +691,7 @@ namespace Quixel
             if (chunk == null)
             {
                 chunk = ChunkPool.getChunk();
-                if (LOD > 2)
-                    chunk.transform.position = position - new Vector3(0f, (NodeManager.LODSize[LOD] / 2f), 0f);
-                else
+              
                     chunk.transform.position = position;
 
                 //chunk.GetComponent<MeshFilter>().mesh.subMeshCount = QuixelEngine.materials.Length;
@@ -702,8 +700,9 @@ namespace Quixel
 
             empty = false;
             Mesh mesh = new Mesh();
-            mesh.subMeshCount = QuixelEngine.materials.Length;
+           // mesh.subMeshCount = QuixelEngine.materials.Length;
             mesh.vertices = meshData.triangleArray;
+			mesh.colors = meshData.colorArray;
 
             for (int i = 0; i < QuixelEngine.materials.Length; i++)
             {
@@ -998,7 +997,7 @@ namespace Quixel
             if (permanent)
             {
                 if (chunk != null)
-                    chunk.GetComponent<MeshFilter>().renderer.enabled = false;
+                    chunk.GetComponent<MeshFilter>().GetComponent<Renderer>().enabled = false;
                 return;
             }
 
