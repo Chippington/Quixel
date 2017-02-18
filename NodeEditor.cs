@@ -83,7 +83,7 @@ namespace Quixel
                 }
             }
 
-            applyPaint(type, size + 1, pos, false);
+            //applyPaint(type, size + 1, pos, false);
             for (int i = 0; i < changedNodes.Count; i++)
                 changedNodes[i].regenerateChunk();
         }
@@ -109,14 +109,14 @@ namespace Quixel
         /// <param name="size">The size (radius) of the brush.</param>
         /// <param name="pos">The (real world) position to apply the brush.</param>
         /// <param name="regen">Set to true to have the engine regen the chunk after painting.</param>
-        public static void applyPaint(BrushType type, int size, Vector3 pos, bool regen)
+        public static void applyPaint(BrushType type, int size, Vector3 pos, bool regen,byte matID)
         {
             List<Node> changedNodes = new List<Node>();
             float nodeWidth = NodeManager.LODSize[0];
             Vector3 realPos = new Vector3();
-            Vector3I point = new Vector3I((int)Math.Round(pos.x / nodeWidth),
-                (int)Math.Round(pos.y / nodeWidth),
-                (int)Math.Round(pos.z / nodeWidth));
+            Vector3I point = new Vector3I((int)Math.Round(pos.x - nodeWidth),
+                (int)Math.Round(pos.y - nodeWidth),
+                (int)Math.Round(pos.z - nodeWidth));
 
             List<Vector3> points = getPoints(type, size, pos);
             for (int o = 0; o < points.Count; o++)
@@ -132,7 +132,7 @@ namespace Quixel
                         if (!changedNodes.Contains(editNode))
                             changedNodes.Add(editNode);
 
-                        editNode.setMaterialFromWorldPos(realPos, materialID);
+                        editNode.setMaterialFromWorldPos(realPos, matID);
 
                     }
                 }
