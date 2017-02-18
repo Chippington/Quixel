@@ -709,6 +709,8 @@ namespace Quixel
             {
                 if (meshData.indexArray[i].Length > 0)
                     mesh.SetTriangles(meshData.indexArray[i], i);
+		else if (mesh.triangles.Length != 0)
+                    mesh.SetTriangles(new int[3] { 0, 0, 0 }, i);
             }
             //mesh.triangles = meshData.indexArray;
             mesh.uv = meshData.uvArray;
